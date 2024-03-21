@@ -7,7 +7,7 @@ interface IRoomParams {
     peerId:string;
 }
 
-// list of Roooms and for each Room, it got a list of peers of that room 
+// list of Roooms and for each Room, it got a list of peers of that room
 const rooms: Record<string, string[]> = {};
 
 
@@ -20,9 +20,9 @@ export const RoomHandler = (socket: Socket) => {
         // define a LIST OF PEERS for a room (when a peer JOINS the room we have to push his id to this array)
         rooms[roomId] = []
 
-        socket.emit("room-created", {roomId}) //send message to client that room is created
+        socket.emit("room-created", {roomId}) // send message to client that room is created
     }
-    
+
     const leaveRoom = ({peerId, roomId}:IRoomParams) => {
         rooms[roomId] = rooms[roomId].filter(id => id !== peerId);
         socket.to(roomId).emit("user-disconnected", peerId);
@@ -33,7 +33,10 @@ export const RoomHandler = (socket: Socket) => {
             console.log("user has joined the room", roomId)
             rooms[roomId].push(peerId);
             socket.join(roomId);
-    
+
+            // catch user joined event
+            socket.to(roomId).emit("user-joined", {peerId})
+
             // get a list of peers in the room
             socket.emit('get-users', {
                 roomId,
