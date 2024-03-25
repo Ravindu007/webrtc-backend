@@ -4,11 +4,11 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-    "build": "tsc",
-    "watch": "tsc -w",
-    "prestart": "npm run build",
-    "start": "concurrently --kill-others \"npm run watch\" \"nodemon .\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -L src/server.ts",
+    "start:prod:dev": "env-cmd -f .env.dev node dist/server.js",
+    "build": "env-cmd -f .env tsc && cp -R src/* dist/",
+    "build:dev": "env-cmd -f .env.dev tsc && cp -R src/* dist/"
   },
   "author": "",
   "license": "ISC",
