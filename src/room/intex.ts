@@ -50,10 +50,19 @@ export const RoomHandler = (socket: Socket) => {
         })
     }
 
+    const startSharing = ({peerId, roomId} :IRoomParams) => {
+        //send ids to every peer in a room 
+        socket.to(roomId).emit("user-started-sharing", peerId);
+    }
+
+    const stoptSharing = (roomId:string) => {
+        socket.to(roomId).emit("user-stopped-sharing");
+    }
 
     // events
     socket.on("create-room", createRoom)
     socket.on("join-room", joinRoom)
-
+    socket.on("start-sharing", startSharing )
+    socket.on("stop-sharing", stoptSharing )
 
 }
