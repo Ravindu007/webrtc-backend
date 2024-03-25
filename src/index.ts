@@ -6,8 +6,7 @@ import { RoomHandler } from './room/intex';
 
 const port = 8080;
 const app = express();
-
-app.use(cors()); // Use CORS middleware for all routes
+app.use(cors);
 
 const server = http.createServer(app);
 
